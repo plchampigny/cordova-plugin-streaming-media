@@ -23,6 +23,7 @@
     UIColor *backgroundColor;
     UIImageView *imageView;
     BOOL initFullscreen;
+    BOOL showControls;
     NSString *mOrientation;
     NSString *videoType;
 }
@@ -50,6 +51,12 @@ NSString * const DEFAULT_IMAGE_SCALE = @"center";
         initFullscreen = [[options objectForKey:@"initFullscreen"] boolValue];
     } else {
         initFullscreen = YES;
+    }
+    
+    if (![options isKindOfClass:[NSNull class]] && [options objectForKey:@"controls"]) {
+        showControls = [[options objectForKey:@"controls"] boolValue];
+    } else {
+        showControls = YES;
     }
     
     if ([type isEqualToString:TYPE_AUDIO]) {
@@ -199,7 +206,7 @@ NSString * const DEFAULT_IMAGE_SCALE = @"center";
     }
     
     [moviePlayer setPlayer:movie];
-    [moviePlayer setShowsPlaybackControls:YES];
+    [moviePlayer setShowsPlaybackControls:showControls];
     if(@available(iOS 11.0, *)) { [moviePlayer setEntersFullScreenWhenPlaybackBegins:YES]; }
     
     //present modally so we get a close button
